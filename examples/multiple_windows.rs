@@ -1,6 +1,6 @@
+use glium::glutin::event::{ElementState, Event, MouseButton, WindowEvent};
+use glium::glutin::event_loop::{ControlFlow, EventLoop};
 use glium::glutin::{window::WindowBuilder, ContextBuilder};
-use glium::glutin::event_loop::{EventLoop, ControlFlow};
-use glium::glutin::event::{Event, WindowEvent, ElementState, MouseButton};
 use glium::{Display, Surface};
 
 use std::collections::HashMap;
@@ -10,8 +10,7 @@ use std::collections::HashMap;
 fn main() {
     let event_loop = EventLoop::new();
 
-    let wb = WindowBuilder::new()
-        .with_title("Test main");
+    let wb = WindowBuilder::new().with_title("Test main");
 
     let cb = ContextBuilder::new();
 
@@ -22,7 +21,10 @@ fn main() {
 
     event_loop.run(move |ev, event_loop, cf| {
         match ev {
-            Event::WindowEvent { event: WindowEvent::CloseRequested, window_id } => {
+            Event::WindowEvent {
+                event: WindowEvent::CloseRequested,
+                window_id,
+            } => {
                 if window_id == display.gl_window().window().id() {
                     // Close the application when main window is closed
                     *cf = ControlFlow::Exit;
@@ -32,15 +34,18 @@ fn main() {
                 }
             }
             // Clicking on the main window spawns new windows
-            Event::WindowEvent { event: WindowEvent::MouseInput {
-                state: ElementState::Released,
-                button: MouseButton::Left,
-                ..
-            }, window_id } if window_id == display.gl_window().window().id() => {
+            Event::WindowEvent {
+                event:
+                    WindowEvent::MouseInput {
+                        state: ElementState::Released,
+                        button: MouseButton::Left,
+                        ..
+                    },
+                window_id,
+            } if window_id == display.gl_window().window().id() => {
                 counter += 1;
 
-                let wb = WindowBuilder::new()
-                    .with_title(&format!("Test {}", counter));
+                let wb = WindowBuilder::new().with_title(&format!("Test {}", counter));
 
                 let cb = ContextBuilder::new();
 
@@ -61,9 +66,8 @@ fn main() {
                     target.clear_color(0.0, 0.0, 1.0, 1.0);
                     target.finish().unwrap();
                 }
-            },
+            }
             _ => (),
         }
     });
 }
-

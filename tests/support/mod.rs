@@ -5,9 +5,9 @@ Test supports module.
 
 #![allow(dead_code)]
 
-use glium::{self, glutin};
 use glium::backend::Facade;
 use glium::index::PrimitiveType;
+use glium::{self, glutin};
 
 use std::env;
 
@@ -74,36 +74,49 @@ fn parse_version() -> glutin::GlRequest {
             };
 
             glutin::GlRequest::Specific(ty, (major, minor))
-        },
+        }
         Err(_) => glutin::GlRequest::Latest,
     }
 }
 
 /// Builds a 2x2 unicolor texture.
-pub fn build_unicolor_texture2d<F: ?Sized>(facade: &F, red: f32, green: f32, blue: f32)
-    -> glium::Texture2d where F: Facade
+pub fn build_unicolor_texture2d<F: ?Sized>(
+    facade: &F,
+    red: f32,
+    green: f32,
+    blue: f32,
+) -> glium::Texture2d
+where
+    F: Facade,
 {
-    let color = ((red * 255.0) as u8, (green * 255.0) as u8, (blue * 255.0) as u8);
+    let color = (
+        (red * 255.0) as u8,
+        (green * 255.0) as u8,
+        (blue * 255.0) as u8,
+    );
 
-    glium::texture::Texture2d::new(facade, vec![
-        vec![color, color],
-        vec![color, color],
-    ]).unwrap()
+    glium::texture::Texture2d::new(facade, vec![vec![color, color], vec![color, color]]).unwrap()
 }
 
 /// Builds a 2x2 depth texture.
 pub fn build_constant_depth_texture<F>(facade: &F, depth: f32) -> glium::texture::DepthTexture2d
-where F: Facade + ?Sized
+where
+    F: Facade + ?Sized,
 {
-    glium::texture::DepthTexture2d::new(facade, vec![
-        vec![depth, depth],
-        vec![depth, depth],
-    ]).unwrap()
+    glium::texture::DepthTexture2d::new(facade, vec![vec![depth, depth], vec![depth, depth]])
+        .unwrap()
 }
 
 /// Builds a vertex buffer, index buffer, and program, to draw red `(1.0, 0.0, 0.0, 1.0)` to the whole screen.
-pub fn build_fullscreen_red_pipeline<F: ?Sized>(facade: &F) -> (glium::vertex::VertexBufferAny,
-    glium::index::IndexBufferAny, glium::Program) where F: Facade
+pub fn build_fullscreen_red_pipeline<F: ?Sized>(
+    facade: &F,
+) -> (
+    glium::vertex::VertexBufferAny,
+    glium::index::IndexBufferAny,
+    glium::Program,
+)
+where
+    F: Facade,
 {
     #[derive(Copy, Clone)]
     struct Vertex {
@@ -113,13 +126,28 @@ pub fn build_fullscreen_red_pipeline<F: ?Sized>(facade: &F) -> (glium::vertex::V
     implement_vertex!(Vertex, position);
 
     (
-        glium::VertexBuffer::new(facade, &[
-            Vertex { position: [-1.0,  1.0] }, Vertex { position: [1.0,  1.0] },
-            Vertex { position: [-1.0, -1.0] }, Vertex { position: [1.0, -1.0] },
-        ]).unwrap().into(),
-
-        glium::IndexBuffer::new(facade, PrimitiveType::TriangleStrip, &[0u8, 1, 2, 3]).unwrap().into(),
-
+        glium::VertexBuffer::new(
+            facade,
+            &[
+                Vertex {
+                    position: [-1.0, 1.0],
+                },
+                Vertex {
+                    position: [1.0, 1.0],
+                },
+                Vertex {
+                    position: [-1.0, -1.0],
+                },
+                Vertex {
+                    position: [1.0, -1.0],
+                },
+            ],
+        )
+        .unwrap()
+        .into(),
+        glium::IndexBuffer::new(facade, PrimitiveType::TriangleStrip, &[0u8, 1, 2, 3])
+            .unwrap()
+            .into(),
         program!(facade,
             110 => {
                 vertex: "
@@ -157,15 +185,19 @@ pub fn build_fullscreen_red_pipeline<F: ?Sized>(facade: &F) -> (glium::vertex::V
                     }
                 ",
             },
-        ).unwrap()
+        )
+        .unwrap(),
     )
 }
 
 /// Builds a vertex buffer and an index buffer corresponding to a rectangle.
 ///
 /// The vertex buffer has the "position" attribute of type "vec2".
-pub fn build_rectangle_vb_ib<F: ?Sized>(facade: &F)
-    -> (glium::vertex::VertexBufferAny, glium::index::IndexBufferAny) where F: Facade
+pub fn build_rectangle_vb_ib<F: ?Sized>(
+    facade: &F,
+) -> (glium::vertex::VertexBufferAny, glium::index::IndexBufferAny)
+where
+    F: Facade,
 {
     #[derive(Copy, Clone)]
     struct Vertex {
@@ -175,16 +207,35 @@ pub fn build_rectangle_vb_ib<F: ?Sized>(facade: &F)
     implement_vertex!(Vertex, position);
 
     (
-        glium::VertexBuffer::new(facade, &[
-            Vertex { position: [-1.0,  1.0] }, Vertex { position: [1.0,  1.0] },
-            Vertex { position: [-1.0, -1.0] }, Vertex { position: [1.0, -1.0] },
-        ]).unwrap().into(),
-
-        glium::IndexBuffer::new(facade, PrimitiveType::TriangleStrip, &[0u8, 1, 2, 3]).unwrap().into(),
+        glium::VertexBuffer::new(
+            facade,
+            &[
+                Vertex {
+                    position: [-1.0, 1.0],
+                },
+                Vertex {
+                    position: [1.0, 1.0],
+                },
+                Vertex {
+                    position: [-1.0, -1.0],
+                },
+                Vertex {
+                    position: [1.0, -1.0],
+                },
+            ],
+        )
+        .unwrap()
+        .into(),
+        glium::IndexBuffer::new(facade, PrimitiveType::TriangleStrip, &[0u8, 1, 2, 3])
+            .unwrap()
+            .into(),
     )
 }
 
 /// Builds a texture suitable for rendering.
-pub fn build_renderable_texture<F: ?Sized>(facade: &F) -> glium::Texture2d where F: Facade {
+pub fn build_renderable_texture<F: ?Sized>(facade: &F) -> glium::Texture2d
+where
+    F: Facade,
+{
     glium::Texture2d::empty(facade, 1024, 1024).unwrap()
 }

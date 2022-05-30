@@ -647,7 +647,7 @@ macro_rules! program {
 mod tests {
     #[test]
     fn trailing_comma_impl_uniforms() {
-        let u = uniform!{ a: 5, b: 6, };
+        let u = uniform! { a: 5, b: 6, };
     }
 
     #[test]
@@ -664,7 +664,7 @@ mod tests {
     fn assert_no_error_macro() {
         struct Dummy;
         impl Dummy {
-            fn assert_no_error(&self, _: Option<&str>) { }
+            fn assert_no_error(&self, _: Option<&str>) {}
         }
 
         assert_no_gl_error!(Dummy);

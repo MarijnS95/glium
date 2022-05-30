@@ -1,5 +1,5 @@
 // Based on https://github.com/Erkaman/image-load-store-demo
-// License included at the end of the file. 
+// License included at the end of the file.
 //
 // This example showcases image load/store functionality in compute shaders, which
 // allows you to read and write to arbitrary textures in a shader.
@@ -210,8 +210,6 @@ void main() {
         action
     });
 }
-
-
 
 // The MIT License (MIT)
 
